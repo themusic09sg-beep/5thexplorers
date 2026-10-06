@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡🔥 5th WORCESTER EXPLORERS ULTRA-CHAOS & MAGNETIC RECOVERY ENGINE 🔥⚡</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Matter.js Physics Engine CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Google Fonts: Comic Neue, Permanent Marker, Press Start 2P -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,700;1,700&family=Permanent+Marker&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @keyframes rainbowBg {
+            0% { background-color: #ff0055; }
+            14% { background-color: #ff9900; }
+            28% { background-color: #33cc33; }
+            42% { background-color: #00ffff; }
+            57% { background-color: #0066ff; }
+            71% { background-color: #9900ff; }
+            85% { background-color: #ff00ff; }
+            100% { background-color: #ff0055; }
+        }
+
+        @keyframes strobingText {
+            0% { color: #ffff00; text-shadow: 0 0 10px #ff0000, 0 0 20px #ff00ff; }
+            25% { color: #00ffff; text-shadow: 0 0 10px #00ff00, 0 0 20px #0000ff; }
+            50% { color: #ff00ff; text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000; }
+            75% { color: #00ff00; text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; }
+            100% { color: #ffff00; text-shadow: 0 0 10px #ff0000, 0 0 20px #ff00ff; }
+        }
+
+        @keyframes infiniteSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes wildTilt {
+            0% { transform: rotate(-8deg) translateY(-5px) scale(0.95); }
+            50% { transform: rotate(8deg) translateY(5px) scale(1.08); }
+            100% { transform: rotate(-8deg) translateY(-5px) scale(0.95); }
+        }
+
+        @keyframes seizureFlash {
+            0% { opacity: 1; filter: invert(0%); }
+            50% { opacity: 0.2; filter: invert(100%); }
+            100% { opacity: 1; filter: invert(0%); }
+        }
+
+        @keyframes insaneBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-25px) rotate(-15deg) scale(1.2); }
+            50% { transform: translateY(15px) rotate(15deg) scale(0.8); }
+            75% { transform: translateY(-10px) rotate(-5deg) scale(1.1); }
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -50px) rotate(90deg); }
+            50% { transform: translate(-40px, 30px) rotate(180deg); }
+            75% { transform: translate(50px, 20px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        body {
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+            animation: rainbowBg 4s infinite linear;
+            cursor: crosshair;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .comic-font { font-family: 'Comic Neue', cursive; }
+        .marker-font { font-family: 'Permanent Marker', cursive; }
+        .retro-font { font-family: 'Press Start 2P', monospace; }
+
+        .rainbow-text { animation: strobingText 0.3s infinite linear; }
+        .spinning-fast { animation: infiniteSpin 1.5s infinite linear; }
+        .spinning-reverse { animation: infiniteSpin 2s infinite linear reverse; }
+        .tilting-wild { animation: wildTilt 0.4s infinite ease-in-out; }
+        .flashing-fast { animation: seizureFlash 0.15s infinite; }
+        .bouncing-mad { animation: insaneBounce 0.6s infinite ease-in-out; }
+        .floating-elem { animation: floatAround 3s infinite ease-in-out; }
+
+        .crazy-border {
+            border: 8px dashed;
+            animation: rainbowBg 0.5s infinite linear, wildTilt 0.3s infinite ease-in-out;
+        }
+
+        .marquee-box {
+            background: repeating-linear-gradient(45deg, #ff0000, #ff0000 10px, #ffff00 10px, #ffff00 20px);
+        }
+
+        /* Running elements spring back transition */
+        .evasive-target {
+            position: relative;
+            will-change: transform;
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .evasive-target.fleeing {
+            transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Glass Screen Crack Overlay */
+        #crackOverlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background-image: radial-gradient(circle, transparent 20%, rgba(255,0,0,0.2) 80%);
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Screen Shake Effect */
+        .earthquake {
+            animation: shake 0.05s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(5px, 5px) rotate(1deg); }
+            20% { transform: translate(-5px, -5px) rotate(-2deg); }
+            40% { transform: translate(-8px, 2px) rotate(1.5deg); }
+            60% { transform: translate(6px, -3px) rotate(-1deg); }
+            80% { transform: translate(-4px, 6px) rotate(2deg); }
+            100% { transform: translate(3px, -4px) rotate(-0.5deg); }
+        }
+
+        /* Physics Canvas */
+        #physicsCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99990;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* Magnet status indicator banner */
+        #magnetStatus {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 100001;
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-white antialiased min-h-screen relative selection:bg-yellow-300 selection:text-red-600">
+
+    <!-- Screen crack svg overlay -->
+    <div id="crackOverlay">
+        <svg class="w-full h-full opacity-90" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0 0 L 300 200 L 150 400 L 600 300 L 1000 800 M 300 200 L 800 100 L 600 300 M 150 400 L 200 900 M 600 300 L 500 1000 M 800 100 L 1200 400 L 900 700" stroke="white" stroke-width="6" fill="none" />
+            <path d="M 500 500 L 200 100 L 800 200 L 900 900 L 400 700 L 500 500 M 800 200 L 1100 100 M 400 700 L 100 1100" stroke="yellow" stroke-width="4" fill="none" />
+            <path d="M 300 700 L 700 300 M 200 500 L 900 600 M 400 200 L 600 800" stroke="cyan" stroke-width="3" stroke-dasharray="10,5" fill="none" />
+        </svg>
+    </div>
+
+    <!-- Matter.js Canvas Container -->
+    <canvas id="physicsCanvas"></canvas>
+
+    <!-- Magnet Pull Indicator -->
+    <div id="magnetStatus" class="bg-black/90 border-4 border-cyan-400 p-3 rounded-2xl text-yellow-300 marker-font text-sm shadow-2xl flashing-fast">
+        🧲 AUTO-MAGNET ACTIVE: MOVE AWAY TO REBUILD! 🧲
+    </div>
+
+    <!-- Floating Emojis -->
+    <div id="emojiContainer" class="pointer-events-none fixed inset-0 z-50 overflow-hidden">
+        <span class="absolute text-5xl floating-elem" style="top: 10%; left: 5%;">⛺</span>
+        <span class="absolute text-6xl floating-elem" style="top: 25%; right: 8%; animation-delay: 0.5s;">🔥</span>
+        <span class="absolute text-5xl floating-elem" style="top: 60%; left: 2%; animation-delay: 1s;">🧭</span>
+        <span class="absolute text-7xl floating-elem" style="top: 80%; right: 4%; animation-delay: 1.5s;">⚜️</span>
+        <span class="absolute text-5xl floating-elem" style="top: 40%; left: 85%; animation-delay: 0.2s;">⚡</span>
+        <span class="absolute text-6xl floating-elem" style="top: 70%; left: 15%; animation-delay: 1.2s;">🦆</span>
+    </div>
+
+    <!-- Floating Control Panel -->
+    <div id="controlPanel" class="fixed bottom-4 right-4 z-50 bg-black border-4 border-yellow-300 p-3 rounded-2xl shadow-2xl flex flex-col gap-2 bouncing-mad">
+        <span class="retro-font text-[10px] text-yellow-300 text-center animate-pulse">SYSTEM WARNING</span>
+        <div class="evasive-target">
+            <button class="catch-me-btn bg-red-600 text-yellow-300 font-black px-3 py-1.5 rounded text-xs retro-font flashing-fast shadow-lg border-2 border-white w-full">
+                🚨 DONT CLICK ME! 🚨
+            </button>
+        </div>
+        <div class="evasive-target">
+            <button class="catch-me-btn bg-purple-600 text-white font-black px-3 py-1 text-xs comic-font border border-yellow-300 w-full">
+                ⚠️ DANGER ZONE ⚠️
+            </button>
+        </div>
+    </div>
+
+    <!-- Emergency Repair Button -->
+    <div id="repairContainer" class="fixed top-12 left-12 z-[100000] hidden">
+        <button id="repairBtn" onclick="rebuildWebsite()" class="bg-yellow-300 text-black text-2xl font-black marker-font px-8 py-4 rounded-3xl border-8 border-red-600 shadow-2xl flashing-fast transform hover:scale-125 transition">
+            🛠️ REPAIR & REBUILD WEBSITE 🛠️
+        </button>
+    </div>
+
+    <!-- Top Marquee -->
+    <div class="marquee-box py-2 text-black font-black text-lg overflow-hidden whitespace-nowrap border-b-8 border-black">
+        <div class="inline-block animate-marquee uppercase marker-font text-xl tracking-widest text-black">
+            ⚡🔥 5th WORCESTER EXPLORER SCOUTS — MAGNETIC RECOVERY ONLINE! ELEMENTS FLEE BUT RUBBER-BAND BACK WHEN YOU RETREAT! 🔥⚡
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div id="mainWebsiteBody" class="transition-opacity duration-500">
+        <header class="sticky top-0 z-40 bg-black/90 crazy-border py-3">
+            <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-4">
+                
+                <!-- Logo -->
+                <div class="evasive-target">
+                    <a href="#" class="catch-me-btn flex items-center space-x-3 group">
+                        <div class="w-16 h-16 rounded-full bg-yellow-400 flex items-center justify-center text-red-600 text-4xl spinning-fast border-4 border-cyan-400">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <div>
+                            <span class="block retro-font text-xs sm:text-sm rainbow-text">5th WORCESTER</span>
+                            <span class="block marker-font text-xl text-green-400 bg-purple-900 px-2 py-0.5 rounded border border-yellow-300 bouncing-mad">EXPLORER SCOUTS</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation links -->
+                <nav class="flex flex-wrap gap-2 text-xs font-black marker-font">
+                    <div class="evasive-target"><a href="#" class="catch-me-btn inline-block bg-red-600 text-white px-3 py-1.5 rounded-full border-2 border-white tilting-wild">ABOUT</a></div>
+                    <div class="evasive-target"><a href="#" class="catch-me-btn inline-block bg-yellow-400 text-black px-3 py-1.5 rounded-full border-2 border-black bouncing-mad">PROGRAMME</a></div>
+                    <div class="evasive-target"><a href="#" class="catch-me-btn inline-block bg-green-500 text-black px-3 py-1.5 rounded-full border-2 border-white tilting-wild">DofE ZONE</a></div>
+                    <div class="evasive-target"><a href="#" class="catch-me-btn inline-block bg-cyan-400 text-black px-3 py-1.5 rounded-full border-2 border-black bouncing-mad">BADGES</a></div>
+                    <div class="evasive-target"><a href="#" class="catch-me-btn inline-block bg-pink-500 text-white px-3 py-1.5 rounded-full border-2 border-white tilting-wild">GALLERY</a></div>
+                </nav>
+
+                <div class="evasive-target">
+                    <button class="catch-me-btn bg-yellow-300 text-red-600 font-black px-5 py-2.5 rounded-full text-base marker-font flashing-fast border-4 border-black">
+                        👉 JOIN NOW! 👈
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="space-y-12 py-8">
+
+            <section class="max-w-7xl mx-auto px-4">
+                <div class="bg-black/80 crazy-border p-6 sm:p-12 rounded-3xl text-center space-y-6">
+                    
+                    <div class="evasive-target">
+                        <div class="catch-me-btn inline-block bg-yellow-300 text-black font-black px-6 py-2 rounded-full text-base marker-font bouncing-mad border-4 border-red-600">
+                            ⚡ WORCESTER's UNTOUCHABLE YOUTH GROUP ⚡
+                        </div>
+                    </div>
+
+                    <h1 class="retro-font text-2xl sm:text-5xl rainbow-text leading-tight uppercase">
+                        ADVENTURE FOR AGES 14-18 <br>
+                        <span class="marker-font text-yellow-300 text-3xl sm:text-6xl bg-red-600 px-4 py-1 inline-block border-4 border-white transform -rotate-3 mt-2">IF YOU CAN CATCH US!</span>
+                    </h1>
+
+                    <p class="comic-font font-black text-xl text-cyan-300 max-w-3xl mx-auto bg-purple-900/90 p-4 rounded-2xl border-4 border-green-400 tilting-wild">
+                        PIONEERING! KAYAKING! MOUNTAIN EXPEDITIONS! CAMPFIRES! DUKE OF EDINBURGH AWARDS! TRY CLICKING ANY CARD TO EXPLODE THE SITE — MOVE AWAY TO MAGNETIZE IT BACK!
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-6 pt-4">
+                        <div class="evasive-target">
+                            <button class="catch-me-btn bg-green-400 text-black font-black text-xl marker-font px-8 py-4 rounded-2xl border-4 border-white shadow-2xl bouncing-mad">
+                                🚀 APPLY FOR MEMBERSHIP 🚀
+                            </button>
+                        </div>
+                        <div class="evasive-target">
+                            <button class="catch-me-btn bg-pink-600 text-yellow-300 font-black text-xl marker-font px-8 py-4 rounded-2xl border-4 border-yellow-300 shadow-2xl tilting-wild">
+                                📅 VIEW PROGRAMME
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Badges Grid -->
+                    <div class="pt-8 space-y-4">
+                        <h2 class="retro-font text-2xl text-yellow-300">EXPLORER BADGE TRAPS (MOVE CURSOR AWAY TO SNAP BACK)</h2>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-purple-900 p-4 rounded-2xl border-4 border-yellow-300 text-center bouncing-mad">
+                                    <div class="text-4xl mb-2 spinning-fast">👔</div>
+                                    <h4 class="marker-font text-sm text-yellow-300">YOUNG LEADER</h4>
+                                </div>
+                            </div>
+
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-cyan-900 p-4 rounded-2xl border-4 border-white text-center tilting-wild">
+                                    <div class="text-4xl mb-2 spinning-reverse">💎</div>
+                                    <h4 class="marker-font text-sm text-cyan-300">DIAMOND</h4>
+                                </div>
+                            </div>
+
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-red-900 p-4 rounded-2xl border-4 border-yellow-300 text-center bouncing-mad">
+                                    <div class="text-4xl mb-2 spinning-fast">👑</div>
+                                    <h4 class="marker-font text-sm text-yellow-300">KINGS SCOUT</h4>
+                                </div>
+                            </div>
+
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-green-900 p-4 rounded-2xl border-4 border-cyan-400 text-center tilting-wild">
+                                    <div class="text-4xl mb-2 spinning-reverse">🌍</div>
+                                    <h4 class="marker-font text-sm text-green-300">EXPLORER BELT</h4>
+                                </div>
+                            </div>
+
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-pink-900 p-4 rounded-2xl border-4 border-yellow-300 text-center bouncing-mad">
+                                    <div class="text-4xl mb-2 spinning-fast">🧭</div>
+                                    <h4 class="marker-font text-sm text-pink-300">NAVIGATION</h4>
+                                </div>
+                            </div>
+
+                            <div class="evasive-target">
+                                <div class="catch-me-btn bg-yellow-900 p-4 rounded-2xl border-4 border-green-400 text-center tilting-wild">
+                                    <div class="text-4xl mb-2 spinning-reverse">🌊</div>
+                                    <h4 class="marker-font text-sm text-yellow-300">WATER SPORTS</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Gallery Cards -->
+            <section class="max-w-7xl mx-auto px-4">
+                <div class="bg-purple-950 crazy-border p-8 rounded-3xl space-y-6">
+                    <h2 class="retro-font text-3xl rainbow-text text-center">GALLERY TRAPS</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="evasive-target">
+                            <div class="catch-me-btn bg-black p-3 rounded-2xl border-4 border-yellow-300">
+                                <img src="https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=600&q=80" class="rounded-xl aspect-video object-cover">
+                                <p class="marker-font text-yellow-300 text-center mt-2">🔥 CAMPFIRE</p>
+                            </div>
+                        </div>
+
+                        <div class="evasive-target">
+                            <div class="catch-me-btn bg-black p-3 rounded-2xl border-4 border-cyan-400">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" class="rounded-xl aspect-video object-cover">
+                                <p class="marker-font text-cyan-300 text-center mt-2">🛶 KAYAKING</p>
+                            </div>
+                        </div>
+
+                        <div class="evasive-target">
+                            <div class="catch-me-btn bg-black p-3 rounded-2xl border-4 border-pink-500">
+                                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" class="rounded-xl aspect-video object-cover">
+                                <p class="marker-font text-pink-300 text-center mt-2">🏔️ MOUNTAINS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Elastic / Rubber-Band Evasion Logic
+        const ESCAPE_RADIUS = 150; // Distance in px where element flees
+        const MAX_OFFSET = 260;   // Max displacement from origin
+
+        document.querySelectorAll('.evasive-target').forEach(wrapper => {
+            wrapper.dataset.x = 0;
+            wrapper.dataset.y = 0;
+        });
+
+        let lastClickX = 0;
+        let lastClickY = 0;
+        let autoRebuildTimer = null;
+
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // 1. Evasive Rubber-Band Logic for live elements
+            document.querySelectorAll('.evasive-target').forEach(wrapper => {
+                const rect = wrapper.getBoundingClientRect();
+                const elemCenterX = rect.left + rect.width / 2;
+                const elemCenterY = rect.top + rect.height / 2;
+
+                const dx = mouseX - elemCenterX;
+                const dy = mouseY - elemCenterY;
+                const dist = Math.hypot(dx, dy);
+
+                if (dist < ESCAPE_RADIUS) {
+                    // Cursor is close -> Active FLEE state
+                    wrapper.classList.add('fleeing');
+                    const angle = Math.atan2(dy, dx);
+                    const force = (ESCAPE_RADIUS - dist) / ESCAPE_RADIUS;
+
+                    let currX = parseFloat(wrapper.dataset.x) || 0;
+                    let currY = parseFloat(wrapper.dataset.y) || 0;
+
+                    // Push away
+                    currX -= Math.cos(angle) * force * 35;
+                    currY -= Math.sin(angle) * force * 35;
+
+                    currX = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, currX));
+                    currY = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, currY));
+
+                    wrapper.dataset.x = currX;
+                    wrapper.dataset.y = currY;
+                    wrapper.style.transform = `translate(${currX}px, ${currY}px) rotate(${currX * 0.12}deg)`;
+                } else {
+                    // Cursor moved away -> Spring/Rubber-band smooth return to zero!
+                    wrapper.classList.remove('fleeing');
+                    wrapper.dataset.x = 0;
+                    wrapper.dataset.y = 0;
+                    wrapper.style.transform = `translate(0px, 0px) rotate(0deg)`;
+                }
+            });
+
+            // 2. Magnetic Attraction for Physics Breakdown Debris
+            if (isCollapsed && matterEngine) {
+                const distFromExplosion = Math.hypot(mouseX - lastClickX, mouseY - lastClickY);
+                
+                // If user moves cursor away (> 220px) from where they clicked/shattered, pull bodies magnetically & rebuild!
+                if (distFromExplosion > 220) {
+                    magnetizeAndRebuild();
+                }
+
+                // Reset auto rebuild idle timer
+                clearTimeout(autoRebuildTimer);
+                autoRebuildTimer = setTimeout(() => {
+                    if (isCollapsed) magnetizeAndRebuild();
+                }, 2500);
+            }
+        });
+
+        // Repel Emergency Repair Button
+        const repairBtn = document.getElementById('repairBtn');
+        let repairX = 0, repairY = 0;
+        window.addEventListener('mousemove', (e) => {
+            if (!repairBtn.parentElement.classList.contains('hidden')) {
+                const rect = repairBtn.getBoundingClientRect();
+                const dx = e.clientX - (rect.left + rect.width / 2);
+                const dy = e.clientY - (rect.top + rect.height / 2);
+                if (Math.hypot(dx, dy) < 160) {
+                    repairX += (Math.random() - 0.5) * 150;
+                    repairY += (Math.random() - 0.5) * 150;
+                    repairBtn.style.transform = `translate(${repairX}px, ${repairY}px) scale(1.2)`;
+                }
+            }
+        });
+
+        let isCollapsed = false;
+        let matterEngine, matterRender, matterRunner;
+
+        // Attach click listener to ALL catchable targets
+        document.querySelectorAll('.catch-me-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!isCollapsed) {
+                    lastClickX = e.clientX;
+                    lastClickY = e.clientY;
+                    triggerWebsiteCollapse(e.clientX, e.clientY);
+                }
+            });
+        });
+
+        function triggerWebsiteCollapse(clickX, clickY) {
+            isCollapsed = true;
+
+            // Play Synth Sound
+            playExplosionSound();
+
+            // EarthQuake screen shake & Cracks
+            document.body.classList.add('earthquake');
+            document.getElementById('crackOverlay').style.display = 'block';
+            document.getElementById('magnetStatus').style.display = 'block';
+
+            // Show Physics Canvas
+            const canvas = document.getElementById('physicsCanvas');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Initialize Matter.js Physics
+            const Engine = Matter.Engine,
+                  Render = Matter.Render,
+                  Runner = Matter.Runner,
+                  Bodies = Matter.Bodies,
+                  Composite = Matter.Composite,
+                  Body = Matter.Body;
+
+            matterEngine = Engine.create();
+            matterEngine.world.gravity.y = 1.6;
+
+            matterRender = Render.create({
+                canvas: canvas,
+                engine: matterEngine,
+                options: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    wireframes: false,
+                    background: 'transparent'
+                }
+            });
+
+            Render.run(matterRender);
+            matterRunner = Runner.create();
+            Runner.run(matterRunner, matterEngine);
+
+            // Boundaries
+            const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 50, window.innerWidth * 2, 100, { isStatic: true, restitution: 0.8 });
+            const leftWall = Bodies.rectangle(-50, window.innerHeight / 2, 100, window.innerHeight * 2, { isStatic: true });
+            const rightWall = Bodies.rectangle(window.innerWidth + 50, window.innerHeight / 2, 100, window.innerHeight * 2, { isStatic: true });
+            Composite.add(matterEngine.world, [ground, leftWall, rightWall]);
+
+            // Convert DOM Elements into Rigid Physics Bodies
+            const targets = document.querySelectorAll('.catch-me-btn, .crazy-border, h1, p, img');
+            const colors = ['#ff0055', '#ffff00', '#00ffff', '#00ff00', '#ff00ff', '#ffffff'];
+
+            targets.forEach((elem) => {
+                const rect = elem.getBoundingClientRect();
+                if (rect.width > 0 && rect.height > 0) {
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+
+                    const body = Bodies.rectangle(x, y, rect.width, rect.height, {
+                        restitution: 0.7,
+                        friction: 0.1,
+                        render: {
+                            fillStyle: colors[Math.floor(Math.random() * colors.length)],
+                            strokeStyle: '#000000',
+                            lineWidth: 4
+                        }
+                    });
+
+                    // Explode outwards from click point
+                    const forceX = (x - clickX) * 0.0008 + (Math.random() - 0.5) * 0.05;
+                    const forceY = (y - clickY) * 0.0008 - Math.random() * 0.08;
+                    Body.applyForce(body, { x: x, y: y }, { x: forceX, y: forceY });
+                    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.3);
+
+                    Composite.add(matterEngine.world, body);
+                }
+            });
+
+            // Add extra debris particles
+            for (let i = 0; i < 70; i++) {
+                const px = clickX + (Math.random() - 0.5) * 200;
+                const py = clickY + (Math.random() - 0.5) * 200;
+                const particle = Bodies.polygon(px, py, Math.floor(Math.random() * 5) + 3, Math.random() * 20 + 5, {
+                    restitution: 0.9,
+                    render: { fillStyle: colors[Math.floor(Math.random() * colors.length)] }
+                });
+                Body.applyForce(particle, { x: px, y: py }, { x: (Math.random() - 0.5) * 0.08, y: -Math.random() * 0.1 });
+                Composite.add(matterEngine.world, particle);
+            }
+
+            // Hide main original HTML elements so physics takes over
+            document.getElementById('mainWebsiteBody').style.opacity = '0.05';
+
+            // Show Repair button after 1 second
+            setTimeout(() => {
+                document.getElementById('repairContainer').classList.remove('hidden');
+            }, 1000);
+        }
+
+        // Magnetically pull physics bodies together and seamlessly snap back layout
+        function magnetizeAndRebuild() {
+            if (!isCollapsed) return;
+
+            const Composite = Matter.Composite;
+            const Body = Matter.Body;
+
+            // Apply inward gravitational suction pull to all bodies toward center screen before snap-back
+            const allBodies = Composite.allBodies(matterEngine.world);
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            allBodies.forEach(body => {
+                if (!body.isStatic) {
+                    const dx = centerX - body.position.x;
+                    const dy = centerY - body.position.y;
+                    Body.applyForce(body, body.position, { x: dx * 0.005, y: dy * 0.005 - 0.05 });
+                }
+            });
+
+            // Smoothly rebuild website after magnetic implosion burst
+            setTimeout(() => {
+                rebuildWebsite();
+            }, 200);
+        }
+
+        // Web Audio Synth Explosion Sound
+        function playExplosionSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(250, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.8);
+
+                gain.gain.setValueAtTime(1, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.8);
+            } catch(e) {
+                console.log("Audio non-interactive guard");
+            }
+        }
+
+        // Rebuild / Reset Functionality
+        function rebuildWebsite() {
+            isCollapsed = false;
+            document.body.classList.remove('earthquake');
+            document.getElementById('crackOverlay').style.display = 'none';
+            document.getElementById('magnetStatus').style.display = 'none';
+            document.getElementById('physicsCanvas').style.display = 'none';
+            document.getElementById('mainWebsiteBody').style.opacity = '1';
+            document.getElementById('repairContainer').classList.add('hidden');
+
+            // Reset element positions elastic rubber-band style
+            document.querySelectorAll('.evasive-target').forEach(wrapper => {
+                wrapper.classList.remove('fleeing');
+                wrapper.dataset.x = 0;
+                wrapper.dataset.y = 0;
+                wrapper.style.transform = 'translate(0px, 0px) rotate(0deg)';
+            });
+
+            if (matterEngine) {
+                Matter.Composite.clear(matterEngine.world);
+                Matter.Engine.clear(matterEngine);
+            }
+        }
+    </script>
+</body>
+</html>
